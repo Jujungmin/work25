@@ -1,5 +1,5 @@
-import Gallery from './Gallery.js';
-import { Profile } from './Gallery.js';
+import Profile from './Profile.js';
+import { Gallery } from './Gallery.js';
 
 export default function App() {
   return (
