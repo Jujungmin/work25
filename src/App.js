@@ -1,11 +1,14 @@
-import Profile from './Profile.js';
-import { Gallery } from './Gallery.js';
-
-export default function App() {
+export default function TodoList() {
   return (
     <>
-      <Profile />
-      <Gallery />
+      <div className="intro" style={{ border: "10px solid green", padding: "40px" }}>
+        <h1>Welcome to my website!</h1>
+      </div>
+      <p className="summary">
+        You can find my thoughts here.
+        <br/>
+        <b>And <i>pictures</i></b> of scientists!
+      </p>
     </>
-  );
+  )
 }
