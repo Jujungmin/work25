@@ -1,12 +1,11 @@
-import './App.css';
-import Hello from './Hello.js';
+import Gallery from './Gallery.js';
+import { Profile } from './Gallery.js';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <Hello />
-    </div>
+    <>
+      <Profile />
+      <Gallery />
+    </>
   );
 }
-
-export default App;
