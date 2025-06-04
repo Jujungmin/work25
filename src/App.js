@@ -1,60 +1,65 @@
 import './App.css';
 import { getImageUrl } from "./utils.js";
 
-
-function Avatar({person}) {
+function Profile({
+  imageId,
+  name,
+  profession,
+  awards,
+  discovery,
+  imageSize = 70
+}) {
   return (
-    <section className="card">
+    <section className="profile">
+      <h2>{name}</h2>
       <img
         className="avatar"
-        src={getImageUrl(person)}
-        alt={person.name}
-        width={person.size}
-        height={person.size}
+        src={getImageUrl(imageId)}
+        alt={name}
+        width={imageSize}
+        height={imageSize}
       />
       <ul>
+        <li><b>Profession: </b>{profession}</li>
         <li>
-          <b>Profession: </b>
-          {person.profession}
-        </li>
-        <li>
-          <b>Awards: {person.awards}</b>
-          {person.awardsInfo}
+          <b>AwardsL {awards.length}</b>
+          ({awards.join(', ')})
         </li>
         <li>
           <b>Discovered: </b>
-          {person.discovered}
+          {discovery}
         </li>
       </ul>
     </section>
-  )
+  );
 }
+
 
 export default function Gallery() {
   return (
     <div>
       <h1>Notable Scientists</h1>
-      <Avatar
-        person={{
-          name: 'Maria Skłodowska-Curie',
-          imageId: 'szV5sdG',
-          size: 70,
-          profession: 'physicist and chemist',
-          awards: '4',
-          awardsInfo: '(Nobel Prize in Physics, Nobel Prize in Chemistry, Davy Medal, Matteucci Medal)',
-          discovered: 'polonium (chemical element)'
-        }}
+      <Profile
+        imageId= "szV5sdG"
+        name= "Maria Skłodowska-Curie"
+        profession= "physicist and chemist"
+        discovered= "polonium (chemical element)"
+        awards= {[
+          "Nobel Prize in Physics",
+          "Nobel Prize in Chemistry",
+          "Davy Medal",
+          "Matteucci Medal"
+        ]}
       />
-      <Avatar
-        person={{
-          name: 'Katsuko Saruhashi',
-          imageId: 'YfeOqp2',
-          size: 70,
-          profession: 'geochemist',
-          awards: '2',
-          awardsInfo: '(Miyake Prize for geochemistry, Tanaka Prize)',
-          discovered: 'a method for measuring carbon dioxide in seawater'
-        }}
+      <Profile
+        imageId="YfeOqp2"
+        name="Katsuko Saruhashi"
+        profession="geochemist"
+        discovery="a method for measuring carbon dioxide in seawater"
+        awards={[
+          'Miyake Prize for geochemistry',
+          'Tanaka Prize'
+        ]}
       />
     </div>
   );
