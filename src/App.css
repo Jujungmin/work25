@@ -4,6 +4,9 @@
   border-radius: 16px;
   border: 1px solid #ddd;
 }
+.card + .card {
+  margin-top: 8px;
+}
 .avatar {
   border-radius: 50%;
 }
