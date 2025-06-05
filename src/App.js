@@ -1,66 +1,33 @@
-import './App.css';
-import { getImageUrl } from "./utils.js";
-
-function Profile({
-  imageId,
-  name,
-  profession,
-  awards,
-  discovery,
-  imageSize = 70
-}) {
+function Item({name, isPacked}) {
+  let itemContent = name;
+  if(isPacked) {
+    itemContent = name + ' ✅';
+  }
   return (
-    <section className="profile">
-      <h2>{name}</h2>
-      <img
-        className="avatar"
-        src={getImageUrl(imageId)}
-        alt={name}
-        width={imageSize}
-        height={imageSize}
-      />
-      <ul>
-        <li><b>Profession: </b>{profession}</li>
-        <li>
-          <b>AwardsL {awards.length}</b>
-          ({awards.join(', ')})
-        </li>
-        <li>
-          <b>Discovered: </b>
-          {discovery}
-        </li>
-      </ul>
-    </section>
-  );
+    <li className="item">
+      {itemContent}
+    </li>
+  )
 }
 
-
-export default function Gallery() {
+export default function PackingList() {
   return (
-    <div>
-      <h1>Notable Scientists</h1>
-      <Profile
-        imageId= "szV5sdG"
-        name= "Maria Skłodowska-Curie"
-        profession= "physicist and chemist"
-        discovered= "polonium (chemical element)"
-        awards= {[
-          "Nobel Prize in Physics",
-          "Nobel Prize in Chemistry",
-          "Davy Medal",
-          "Matteucci Medal"
-        ]}
-      />
-      <Profile
-        imageId="YfeOqp2"
-        name="Katsuko Saruhashi"
-        profession="geochemist"
-        discovery="a method for measuring carbon dioxide in seawater"
-        awards={[
-          'Miyake Prize for geochemistry',
-          'Tanaka Prize'
-        ]}
-      />
-    </div>
-  );
+    <section>
+      <h1>Sally Ride's Packing List</h1>
+      <ul>
+        <Item
+          isPacked={true}
+          name="Space suit"
+        />
+        <Item
+          isPacked={true}
+          name="Helmet with a golden leaf"
+        />
+        <Item
+          isPacked={false}
+          name="Photo of Tam"
+        />
+      </ul>
+    </section>
+  )
 }
