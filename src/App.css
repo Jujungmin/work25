@@ -10,3 +10,12 @@
 .avatar {
   border-radius: 50%;
 }
+
+.blue {
+  background-color: blue;
+  color: white;
+}
+.gray {
+  background-color: gray;
+  color: white;
+}
