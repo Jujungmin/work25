@@ -1,35 +1,29 @@
-import { recipes } from "./data";
-
-function Recipe({name, ingredients}) {
+function Item({name, importance}) {
   return (
-    <div>
-      <h2>{name}</h2>
-      <ul>
-        {ingredients.map(ingredient =>
-          <li key={ingredient}>{ingredient}</li>
-        )}
-      </ul>
-    </div>
+    <li>
+      {name} {importance > 0 && (<i>(IMPORTANCE: {importance})</i>)}
+    </li>
   )
 }
 
-export default function RecipeList() {
+export default function PackingList() {
   return (
-    <div>
-      <h1>Recipes</h1>
-      {recipes.map(recipe => 
-        <Recipe name={recipe.name} ingredients={recipe.ingredients} key={recipe.id} />
-      )}
-      {/* {recipes.map(item =>
-        <div key={item.id}>
-          <h2>{item.name}</h2>
-          <ul>
-            {item.ingredients.map(i => 
-              <li key={i}>{i}</li>
-            )}
-          </ul>
-        </div>
-      )} */}
-    </div>
+    <section>
+      <h1>Sally Ride's Packing List</h1>
+      <ul>
+        <Item
+          importance={9}
+          name="Space suit"
+        />
+        <Item
+          importance={0}
+          name="Helmet with a golden leaf"
+        />
+        <Item
+          importance={6}
+          name="Photo of Tam"
+        />
+      </ul>
+    </section>
   )
 }
