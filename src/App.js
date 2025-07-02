@@ -1,50 +1,55 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-export default function Movie() {
+export default function TodoList() {
   const [input, setInput] = useState('');
-  const [movies, setMovies] = useState([]);
+  const [todos, setTodos] = useState([]);
+  const [showWarning, setShowWarning] = useState(false);
+  const index = useRef(0);
 
   function handleSubmit(e) {
     e.preventDefault();
     if(input.trim() === '') {
-      alert('영화 제목을 입력해주세요.');
+      setShowWarning(true);
       return;
     }
-    setMovies([...movies, input]);
-    setInput('');
-    console.log(movies)
+    setTodos([
+      {id: index.current++, add: input},
+      ...todos,
+    ])
+    setShowWarning(false);
   }
-  function handleDelete(index) {
-    return () => {
-      setMovies(
-        movies.filter((_, i) => {
-          console.log(_, i);
-          return i !== index;
-        })
-      )
-    }
-  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
+        <label>할 일:</label>
         <input
-          type="text"
-          placeholder="영화를 입력해주세요."
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value)
+          }}
         />
-        <button type="submit">등록</button>
+        <button type="submit">추가</button>
       </form>
-      {movies.length > 0 && (
-        <ul style={{border:'1px solid #222'}}>
-          {movies.map((movie, index) => (
-            <li key={index} style={{padding:'10px'}}>
-              {movie}
-              <button onClick={handleDelete(index)}>삭제</button>
+      {showWarning &&
+        <span style={{display:'block', color: 'red'}}>할 일을 입력해주세요!</span>
+      }
+      {todos.length > 0 && 
+        <ul style={{border: '1px solid #999'}}>
+          {todos.map(todo => (
+            <li key={todo.id}>
+              {todo.add}
+              <button onClick={() => {
+                setTodos(
+                  todos.filter(t => {
+                    return t.id !== todo.id
+                  })
+                )
+              }}>삭제</button>
             </li>
           ))}
         </ul>
-      )}
+      }
     </>
   )
 }
