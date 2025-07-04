@@ -1,51 +1,61 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from "react"
 
 export default function TodoList() {
-  const [input, setInput] = useState('');
+  const [text, setText] = useState('');
   const [todos, setTodos] = useState([]);
-  const [showWarning, setShowWarning] = useState(false);
   const index = useRef(0);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    if(input.trim() === '') {
-      setShowWarning(true);
-      return;
-    }
-    setTodos([
-      {id: index.current++, add: input},
-      ...todos,
-    ])
-    setShowWarning(false);
-  }
+  const [editId, setEditId] = useState(null);
+  const [editText, setEditText] = useState('');
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <label>할 일:</label>
-        <input
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value)
-          }}
-        />
-        <button type="submit">추가</button>
-      </form>
-      {showWarning &&
-        <span style={{display:'block', color: 'red'}}>할 일을 입력해주세요!</span>
+      <input
+        value={text}
+        onChange={e => setText(e.target.value)}
+      />
+      <button onClick={() => {
+        if(text.trim() !== '') {
+          setTodos([
+            {id: index.current++, text: text},
+            ...todos,
+          ])
+        }
+        setText('')
       }
+      }>저장</button>
       {todos.length > 0 && 
-        <ul style={{border: '1px solid #999'}}>
+        <ul>
           {todos.map(todo => (
             <li key={todo.id}>
-              {todo.add}
-              <button onClick={() => {
-                setTodos(
-                  todos.filter(t => {
-                    return t.id !== todo.id
-                  })
-                )
-              }}>삭제</button>
+              {editId === todo.id ? (
+                <>
+                  <input value={editText} onChange={(e) => setEditText(e.target.value)} />
+                  <button onClick={() => {
+                    setTodos(
+                      todos.map(t => {
+                        return t.id === todo.id ? {...t, text: editText} : t
+                      })
+                    )
+                    setEditId(null);
+                    setEditText('');
+                  }}>저장</button>
+                  <button onClick={() => {
+                    setEditId(null);
+                    setEditText('');
+                  }}>취소</button>
+                </>
+              ) : (
+                <>
+                  <span>{todo.text}</span>
+                  <button onClick={() => {
+                    setEditId(todo.id);
+                    setEditText(todo.text)
+                  }}>수정</button>
+                  <button onClick={() => {
+                    setTodos(todos.filter(t => t.id !== todo.id))
+                  }}>삭제</button>
+                </>
+              )}
             </li>
           ))}
         </ul>
