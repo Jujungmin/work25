@@ -57,3 +57,7 @@ ul {
 .picture--active {
   border: 5px solid #a6b5ff;
 }
+
+li.hightlighted {
+  background-color: #d2eaff;
+}
