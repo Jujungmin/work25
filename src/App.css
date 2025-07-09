@@ -61,3 +61,7 @@ ul {
 li.hightlighted {
   background-color: #d2eaff;
 }
+.selected,
+.hightlight {
+  background-color: #f0f0f0;
+}

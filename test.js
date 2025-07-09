@@ -31,3 +31,11 @@ const counts = pets.reduce((acc,cur) => {
   return acc;
 }, {});
 // console.log(counts);
+
+const field = ['email', 'phone'];
+const values = ['a@a.com', '010-1234'];
+let info = {};
+field.forEach((f,i) => {
+    info = {...info, [f]: values[i]}
+});
+console.log(info)

@@ -1,7 +1,7 @@
 import './App.css';
 import { useState } from "react";
 
-export const initialLetters = [{
+export const letters = [{
   id: 0,
   subject: 'Ready for adventure?',
   isStarred: true,
@@ -15,37 +15,37 @@ export const initialLetters = [{
   isStarred: false,
 }];
 
-
 export default function MailClient() {
-  const [letters, setLetters] = useState(initialLetters);
-  const [hightlightedLetterId, setHightlightedLetterId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState(letters);
+  const selectedCount = selectedIds.filter(selected => selected.isStarred).length
 
   return (
     <>
+      <h2>Inbox</h2>
       <ul>
-        {letters.map(letter => (
+        {selectedIds.map(letters => (
           <li
-            key={letter.id}
-            onPointerMove={() => setHightlightedLetterId(letter.id)}
-            onFocus={() => setHightlightedLetterId(letter.id)}
-            className={letter.id === hightlightedLetterId ? 'hightlighted' : ''}
-            >
-            <button onClick={() => {
-              setLetters(letters.map(l => {
-                if(l.id === letter.id) {
-                  return {
-                    ...l,
-                    isStarred: !l.isStarred
-                  }
-                } else {
-                  return l;
-                }
-              }))
-            }}>{letter.isStarred ? 'Unstar' : 'Star'}</button>
-            {letter.subject}
+            key={letters.id}
+            className={letters.isStarred ? 'selected': ''}
+          >
+            <label>
+              <input
+                type="checkbox"
+                checked={letters.isStarred}
+                onChange={() => {
+                  setSelectedIds(letter =>
+                    letter.map(l => {
+                      return l.id === letters.id ? {...letters, isStarred: !l.isStarred} : l
+                    })
+                  )
+                }}
+              />
+              {letters.subject}
+            </label>
           </li>
         ))}
       </ul>
+      <div>You selected {selectedCount} letters</div>    
     </>
   )
 }
