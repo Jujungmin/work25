@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from "react";
+import Letters from './Letters';
 
 export const letters = [{
   id: 0,
@@ -15,37 +16,40 @@ export const letters = [{
   isStarred: false,
 }];
 
+
 export default function MailClient() {
-  const [selectedIds, setSelectedIds] = useState(letters);
-  const selectedCount = selectedIds.filter(selected => selected.isStarred).length
+  const [selectedIds, setSelctedIds] = useState(new Set());
+  const selectedCount = selectedIds.size;
+
+  // 선택/해제 클릭할 때 실행되는 함수
+  function handleToggle(toggleId) {
+    const nextIds = new Set(selectedIds); // 현재 Set 복사
+    if(nextIds.has(toggleId)) {
+      nextIds.delete(toggleId);
+      console.log(`id ${toggleId} 해제:`, Array.from(nextIds));
+    } else {
+      nextIds.add(toggleId);
+      console.log(`id ${toggleId} 선택:`, Array.from(nextIds));
+    }
+    setSelctedIds(nextIds); // 상태 업데이트
+  }
 
   return (
     <>
       <h2>Inbox</h2>
       <ul>
-        {selectedIds.map(letters => (
-          <li
-            key={letters.id}
-            className={letters.isStarred ? 'selected': ''}
-          >
-            <label>
-              <input
-                type="checkbox"
-                checked={letters.isStarred}
-                onChange={() => {
-                  setSelectedIds(letter =>
-                    letter.map(l => {
-                      return l.id === letters.id ? {...letters, isStarred: !l.isStarred} : l
-                    })
-                  )
-                }}
-              />
-              {letters.subject}
-            </label>
-          </li>
+        {letters.map(letter => (
+          <Letters
+            key={letter.id}
+            letter={letter}
+            isSelected={selectedIds.has(letter.id)}
+            onToggle={handleToggle}
+          />
         ))}
       </ul>
-      <div>You selected {selectedCount} letters</div>    
+      <div style={{borderTop: '1px solid #000', marginTop: '10px', paddingTop: '10px'}}>
+      You selected {selectedCount} letters
+    </div>
     </>
   )
 }

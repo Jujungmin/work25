@@ -58,10 +58,11 @@ ul {
   border: 5px solid #a6b5ff;
 }
 
+.selected,
 li.hightlighted {
   background-color: #d2eaff;
 }
-.selected,
+
 .hightlight {
   background-color: #f0f0f0;
 }
