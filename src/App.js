@@ -1,55 +1,61 @@
-import './App.css';
 import { useState } from "react";
-import Letters from './Letters';
 
-export const letters = [{
-  id: 0,
-  subject: 'Ready for adventure?',
-  isStarred: true,
-}, {
-  id: 1,
-  subject: 'Time to check in!',
-  isStarred: false,
-}, {
-  id: 2,
-  subject: 'Festival Begins in Just SEVEN Days!',
-  isStarred: false,
-}];
+const initialUsers = [
+  { id: 1, name: 'David' },
+  { id: 2, name: 'Yuna' },
+  { id: 3, name: 'Becky' }
+];
 
-
-export default function MailClient() {
-  const [selectedIds, setSelctedIds] = useState(new Set());
-  const selectedCount = selectedIds.size;
-
-  // 선택/해제 클릭할 때 실행되는 함수
-  function handleToggle(toggleId) {
-    const nextIds = new Set(selectedIds); // 현재 Set 복사
-    if(nextIds.has(toggleId)) {
-      nextIds.delete(toggleId);
-      console.log(`id ${toggleId} 해제:`, Array.from(nextIds));
-    } else {
-      nextIds.add(toggleId);
-      console.log(`id ${toggleId} 선택:`, Array.from(nextIds));
+export default function App() {
+  const [inputText, setInputText] = useState('');
+  // 사용자 배열
+  const [users, setUsers] = useState(initialUsers);
+  // 사용자 추가 버튼
+  const handleAddBtn = (e) => {
+    e.preventDefault();
+    if(!inputText.trim()) return;
+    // input에 적은거 사용자 배열에 넣어줘야 함.
+      // id도 넣어준다. 아무것도없을때는 1, 있을 때는 기존 id의 + 1
+    // 사용자 배열을 오름차순으로 해야됨.
+    const newUsers = {
+      id: users.length > 0 ? (users.length - 1) + 1 : 1,
+      name: inputText.trim()
     }
-    setSelctedIds(nextIds); // 상태 업데이트
+    setUsers(prevUsers =>
+      [...prevUsers, newUsers].sort((a, b) => a.name.localeCompare(b.name))
+    )
+    setInputText('');
   }
+
+  const handleDeleteBtn = (id) => {
+    setUsers(user =>
+      user.filter(user => user.id !== id)
+    )
+  }
+
 
   return (
     <>
-      <h2>Inbox</h2>
-      <ul>
-        {letters.map(letter => (
-          <Letters
-            key={letter.id}
-            letter={letter}
-            isSelected={selectedIds.has(letter.id)}
-            onToggle={handleToggle}
-          />
-        ))}
-      </ul>
-      <div style={{borderTop: '1px solid #000', marginTop: '10px', paddingTop: '10px'}}>
-      You selected {selectedCount} letters
-    </div>
+      <form onSubmit={handleAddBtn}>
+        <input
+          value={inputText}
+          onChange={(e => setInputText(e.target.value))}
+        />
+        <button type="submit">Add</button>
+      </form>
+      {users.length > 0 ? (
+        <ul>
+          {users.map(user => (
+            <li key={user.id}>
+              {user.name}{' '}
+              <button onClick={() => handleDeleteBtn(user.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      )
+      : (
+        <p>no users</p>
+      )}
     </>
   )
 }
