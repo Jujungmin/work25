@@ -1,35 +1,50 @@
+import './App.css';
 import { useState } from "react";
 
 const initialUsers = [
-  { id: 1, name: 'David' },
-  { id: 2, name: 'Yuna' },
-  { id: 3, name: 'Becky' }
+  { id: 1, name: 'David', isFavorite: false },
+  { id: 2, name: 'Yuna', isFavorite: true },
+  { id: 3, name: 'Becky', isFavorite: true }
 ];
 
 export default function App() {
   const [inputText, setInputText] = useState('');
   // 사용자 배열
   const [users, setUsers] = useState(initialUsers);
+  const [nextId, setNextId] = useState(users.length + 1);
   // 사용자 추가 버튼
   const handleAddBtn = (e) => {
     e.preventDefault();
     if(!inputText.trim()) return;
-    // input에 적은거 사용자 배열에 넣어줘야 함.
-      // id도 넣어준다. 아무것도없을때는 1, 있을 때는 기존 id의 + 1
-    // 사용자 배열을 오름차순으로 해야됨.
     const newUsers = {
-      id: users.length > 0 ? (users.length - 1) + 1 : 1,
-      name: inputText.trim()
+      id: nextId,
+      name: inputText
     }
-    setUsers(prevUsers =>
-      [...prevUsers, newUsers].sort((a, b) => a.name.localeCompare(b.name))
+    setUsers(prev =>
+      [...prev, newUsers].sort((a, b) => a.name.localeCompare(b.name))
     )
+    setNextId(prev => prev + 1);
     setInputText('');
+    const isDuplicate = users.some(user => user.name === inputText.trim());
+    if(isDuplicate) {
+      document.querySelector('.hint-msg').style.display = 'block';
+    } else {
+      document.querySelector('.hint-msg').style.display = 'none';
+    }
   }
 
   const handleDeleteBtn = (id) => {
     setUsers(user =>
       user.filter(user => user.id !== id)
+    )
+  }
+
+  const handleToggleBtn = (id) => {
+    setUsers(prev => 
+      prev.map(user => 
+        user.id === id ? {...user, isFavorite: !user.isFavorite} : user
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))
     )
   }
 
@@ -42,13 +57,20 @@ export default function App() {
           onChange={(e => setInputText(e.target.value))}
         />
         <button type="submit">Add</button>
+        <span className="hint-msg">이미 존재하는 이름입니다.</span>
       </form>
       {users.length > 0 ? (
         <ul>
           {users.map(user => (
-            <li key={user.id}>
+            <li
+              key={user.id}
+              className={user.isFavorite ? 'favorite' : ''}
+            >
               {user.name}{' '}
               <button onClick={() => handleDeleteBtn(user.id)}>Delete</button>
+              <button onClick={() => handleToggleBtn(user.id)}>
+                {user.isFavorite ? '❤️' : '🤍'}
+              </button>
             </li>
           ))}
         </ul>

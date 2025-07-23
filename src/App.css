@@ -66,3 +66,12 @@ li.hightlighted {
 .hightlight {
   background-color: #f0f0f0;
 }
+.hint-msg {
+  display: none;
+  font-size: 14px;
+  color: red;
+}
+.favorite {
+  font-weight: bold;
+  color: palevioletred;
+}
