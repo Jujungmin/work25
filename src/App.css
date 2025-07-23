@@ -75,3 +75,36 @@ li.hightlighted {
   font-weight: bold;
   color: palevioletred;
 }
+
+table {
+  border-collapse: collapse;
+}
+table th,
+table td {
+  padding: 4px 6px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btns {
+  display: flex;
+  flex-direction: column;
+}
+.btns button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 14px;
+  padding: 0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.btns button:active {
+  background-color: #ccc;
+}
