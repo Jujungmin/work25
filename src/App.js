@@ -8,55 +8,45 @@ const initialUsers = [
 ];
 
 export default function App() {
-  const [users, setUsers] = useState(initialUsers);
-  const [sortKey, setSortKey] = useState('id');
-  const [sortOrder, setSortOrder] = useState('asc');
+  // 사용자 리스트
+  const [users] = useState(initialUsers);
+  // 검색 텍스트
   const [serarchText, setSearchText] = useState('');
-
-  const handleSort = (key) => {
-    if(sortKey === key) {
-      // 정렬 방향 토글
-      setSortKey((prev) => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
-      setSortKey(key);
-      setSortOrder('asc');
-    }
+  // 현재 정렬 기준 (id, name, age)
+  const [sortKey, setSortKey] = useState('id');
+  // 정렬 방항: 오름(asc) / 내림(desc)
+  const [sortOrder, setSortOrder] = useState('asc');
+  // 오름, 내림 차순 이벤트 함수
+  const handleSort = (id, asc) => {
+    setSortKey(id);
+    setSortOrder(asc);
   }
-
+  // 필터 적용 및 정렬된 사용자 배열 생성
   const processedUsers = users
-  .filter((user) => user.name.toLocaleLowerCase().includes(serarchText.toLocaleLowerCase()))
-  .sort((a, b) => {
-    if(sortKey === 'id') return sortOrder === 'asc' ? a.id - b.id : b.id - a.id;
-    if(sortKey === 'name') return sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
-    if(sortKey === 'age') return sortOrder === 'asc' ? a.age - b.age : b.age - a.age;
-    return 0;
-  })
+    .filter(user => { // // 검색 필터
+      const lowerSearch = serarchText.toLowerCase();
+      return (
+        user.name.toLowerCase().includes(lowerSearch) ||
+        user.id.toString().includes(lowerSearch) ||
+        user.age.toString().includes(lowerSearch)
+      )
+    })
+    .sort((a, b) => {
+      if(sortKey === 'id') return sortOrder === 'asc' ? a.id - b.id : b.id - a.id;
+      if(sortKey === 'name') return sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+      if(sortKey === 'age') return sortOrder === 'asc' ? a.age - b.age : b.age - a.age;
+      return 0;
+    })
 
-  // const handleSort = (key, order = 'asc') => {
-  //   setUsers(prev => {
-  //     const copied = [...prev];
-  //     return copied.sort((a, b) => {
-  //       if(key === 'id') return order === 'asc'
-  //         ? a.id - b.id
-  //         : b.id - a.id;
-  //       if(key === 'name') return order === 'asc'
-  //         ? a.name.localeCompare(b.name)
-  //         : b.name.localeCompare(a.name);
-  //         if(key === 'age') return order === 'asc'
-  //         ? a.age - b.age
-  //         : b.age - a.age;
-  //       return 0;
-  //     })
-  //   })
-  // }
+
   return (
     <>
-    <h2>사용자 목록</h2>
-    <input
-      value={serarchText}
-      onChange={(e) => setSearchText(e.target.value)}
-      placeholder="이름 필터"
-    />
+      <h2>사용자 목록</h2>
+      <input
+        value={serarchText}
+        onChange={(e) => setSearchText(e.target.value)}
+        placeholder="필터"
+      />
       <table>
         <colgroup>
           <col style={{width: '100px'}} span={3} />
