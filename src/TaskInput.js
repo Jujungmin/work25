@@ -15,9 +15,3 @@ export function TaskInput({
   </>
  ) 
 }
-
-/*
-react는 맨날 봐도봐도 이해가 안가고,
-내가 언제쯤 도움을 안받고 혼자 생각하며 짤 수 있을까..
-useState, new Set, 배열메서드, 
-*/
