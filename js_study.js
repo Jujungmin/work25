@@ -58,3 +58,15 @@ function calcB() {
 // 🌍 "전체 선택" / "전체 해제" 버튼 만들기
 // 🔍 검색 필터 기능 (입력에 따라 리스트 필터링)
 // ✏️ 이름 수정 기능
+
+// function 함수이름(매개변수 = 기본값) {}
+// function gretting(name = 'Guest') {
+//   console.log('Hello, ' + name + '!')
+// }
+
+function gretting(name) {
+  name = (typeof name !== 'undefined') ? name : 'Guest';
+  console.log('Hello, ' + name + '!');
+}
+gretting();
+gretting('Alice')

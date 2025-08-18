@@ -108,3 +108,46 @@ table td {
 .btns button:active {
   background-color: #ccc;
 }
+.counter {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 100px;
+  padding: 20px;
+  border: 1px solid #000;
+  border-radius: 16px;
+  text-align: center;
+}
+.counter + .counter {
+  margin-left: 24px;
+}
+.counter.hover {
+  background: lightgoldenrodyellow;
+}
+.counter.fancy {
+  border: 5px solid yellowgreen;
+}
+.counter.fancy h1 {
+  color: orange;
+}
+.counter + button {
+  display: block;
+  margin-top: 20px;
+}
+
+.chat, .contact-list {
+  float: left;
+  margin-bottom: 20px;
+}
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+li button {
+  width: 100px;
+  padding: 10px;
+  margin-right: 10px;
+}
+textarea {
+  height: 150px;
+}
